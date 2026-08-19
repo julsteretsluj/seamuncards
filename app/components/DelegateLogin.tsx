@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { supabase } from "../../lib/supabase";
+import { getSupabase } from "../../lib/supabase";
 import type { User } from "@supabase/supabase-js";
 
 interface DelegateProfile {
@@ -28,6 +28,7 @@ export default function DelegateLogin() {
   const [signingIn, setSigningIn] = useState(false);
 
   const fetchProfile = useCallback(async (userId: string) => {
+    const supabase = getSupabase();
     const { data: prof } = await supabase
       .from("profiles")
       .select("name, role, allocation, profile_picture_url")
@@ -52,6 +53,7 @@ export default function DelegateLogin() {
   }, []);
 
   useEffect(() => {
+    const supabase = getSupabase();
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
         setUser(session.user);
@@ -77,7 +79,7 @@ export default function DelegateLogin() {
   const handleLogin = async () => {
     setError("");
     setSigningIn(true);
-    const { error: authError } = await supabase.auth.signInWithPassword({
+    const { error: authError } = await getSupabase().auth.signInWithPassword({
       email: email.trim(),
       password,
     });
@@ -92,7 +94,7 @@ export default function DelegateLogin() {
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    await getSupabase().auth.signOut();
     setProfile(null);
     setAllocations([]);
     setEmail("");

@@ -7,6 +7,8 @@ export const metadata: Metadata = {
     "Your digital conference companion for SEAMUN I 2027 at D-PREP International School",
 };
 
+export const dynamic = "force-dynamic";
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
