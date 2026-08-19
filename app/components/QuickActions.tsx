@@ -14,7 +14,6 @@ const actions = [
       </svg>
     ),
     href: "#wifi",
-    color: "bg-[#D4F0E7]",
   },
   {
     label: "Full schedule",
@@ -25,7 +24,6 @@ const actions = [
       </svg>
     ),
     href: "#schedule",
-    color: "bg-[#E8DFF5]",
   },
   {
     label: "seamun.com",
@@ -36,7 +34,6 @@ const actions = [
       </svg>
     ),
     href: "https://seamun.com",
-    color: "bg-[#F7E8D0]",
     external: true,
   },
   {
@@ -47,7 +44,6 @@ const actions = [
       </svg>
     ),
     href: "https://intermun.site",
-    color: "bg-[#F5DFE8]",
     external: true,
   },
   {
@@ -58,48 +54,65 @@ const actions = [
       </svg>
     ),
     href: "tel:+66812345678",
-    color: "bg-red-50",
     subtitle: "+66 81 234 5678",
+  },
+  {
+    label: "Delegate login",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-6 h-6">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="12" cy="7" r="4" />
+      </svg>
+    ),
+    href: "#delegate-login",
   },
 ];
 
 export default function QuickActions() {
   return (
-    <section className="px-5 pb-16">
-      <div className="max-w-lg mx-auto">
-        <motion.h2
-          initial={{ opacity: 0, x: -15 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-2xl font-bold text-[#1B2E4A] mb-6"
-        >
-          Quick actions
-        </motion.h2>
-        <div className="grid grid-cols-2 gap-3">
-          {actions.map((action, i) => (
-            <motion.a
-              key={action.label}
-              href={action.href}
-              target={action.external ? "_blank" : undefined}
-              rel={action.external ? "noopener noreferrer" : undefined}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.07 }}
-              className={`${action.color} rounded-xl p-4 flex flex-col gap-2 hover:shadow-md transition-shadow duration-300 ${i === 0 ? "row-span-1" : ""}`}
-              style={{ minHeight: i % 3 === 0 ? "110px" : "100px" }}
-            >
-              <span className="text-[#1B2E4A]">{action.icon}</span>
-              <span className="text-sm font-semibold text-[#1B2E4A]">
-                {action.label}
-              </span>
-              {action.subtitle && (
-                <span className="text-xs text-[#4A6078]">{action.subtitle}</span>
-              )}
-            </motion.a>
-          ))}
-        </div>
+    <section className="w-full elevated-card">
+      <motion.h2
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="text-xl font-bold mb-5"
+        style={{ color: "#1d1d1f" }}
+      >
+        Quick actions
+      </motion.h2>
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        {actions.map((action, i) => (
+          <motion.a
+            key={action.label}
+            href={action.href}
+            target={(action as { external?: boolean }).external ? "_blank" : undefined}
+            rel={(action as { external?: boolean }).external ? "noopener noreferrer" : undefined}
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.35, delay: i * 0.05 }}
+            className="flex flex-col items-center gap-2 rounded-xl p-4 text-center transition-all duration-200"
+            style={{
+              background: "#f2f2f7",
+              color: "#1d1d1f",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "#e5e5ea";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "#f2f2f7";
+            }}
+          >
+            <span style={{ color: "#007aff" }}>{action.icon}</span>
+            <span className="text-xs font-semibold" style={{ color: "#1d1d1f" }}>
+              {action.label}
+            </span>
+            {action.subtitle && (
+              <span className="text-[11px]" style={{ color: "#6e6e73" }}>{action.subtitle}</span>
+            )}
+          </motion.a>
+        ))}
       </div>
     </section>
   );

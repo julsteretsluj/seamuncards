@@ -144,125 +144,146 @@ export default function Schedule() {
   const key = `${activeDay}-${activeGroup}`;
   const items = schedules[key] || [];
 
+  const segmentedStyle = (active: boolean) => ({
+    background: active ? "#ffffff" : "transparent",
+    color: active ? "#1d1d1f" : "#6e6e73",
+    boxShadow: active ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
+    borderRadius: "7px",
+    padding: "6px 14px",
+    fontSize: "13px",
+    fontWeight: 600 as const,
+    transition: "all 0.2s",
+    cursor: "pointer" as const,
+    border: "none",
+  });
+
   return (
-    <section id="schedule" className="px-5 pb-20">
-      <div className="max-w-lg mx-auto">
-        <motion.h2
-          initial={{ opacity: 0, x: 15 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-2xl font-bold text-[#1B2E4A] mb-2"
-        >
-          Schedule
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-sm text-[#7A8FA3] mb-5"
-        >
-          January 16–17, 2027 · D-PREP International School
-        </motion.p>
+    <section id="schedule" className="w-full elevated-card">
+      <motion.h2
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="text-xl font-bold mb-1"
+        style={{ color: "#1d1d1f" }}
+      >
+        Schedule
+      </motion.h2>
+      <motion.p
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="text-sm mb-5"
+        style={{ color: "#6e6e73" }}
+      >
+        January 16–17, 2027 · D-PREP International School
+      </motion.p>
 
-        {/* Group selector */}
-        <div className="mb-4">
-          <p className="text-xs font-medium text-[#7A8FA3] uppercase tracking-wider mb-2">
-            Your committee group
-          </p>
-          <div className="flex gap-2">
-            {[1, 2, 3].map((g) => (
-              <button
-                key={g}
-                onClick={() => handleGroupChange(g)}
-                className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 ${
-                  activeGroup === g
-                    ? "bg-[#1B2E4A] text-white shadow-md shadow-[#1B2E4A]/15"
-                    : "bg-white/50 text-[#4A6078] hover:bg-white/70"
-                }`}
-              >
-                Group {g}
-              </button>
-            ))}
-          </div>
-          <p className="text-[11px] text-[#7A8FA3]/80 mt-1.5">
-            {GROUP_LABELS[activeGroup - 1]}
-          </p>
+      {/* Group selector — segmented control */}
+      <div className="mb-4">
+        <p className="text-xs font-medium uppercase tracking-wider mb-2" style={{ color: "#6e6e73" }}>
+          Your committee group
+        </p>
+        <div
+          className="inline-flex gap-0.5 p-1 rounded-lg"
+          style={{ background: "rgba(118,118,128,0.12)" }}
+        >
+          {[1, 2, 3].map((g) => (
+            <button
+              key={g}
+              onClick={() => handleGroupChange(g)}
+              style={segmentedStyle(activeGroup === g)}
+            >
+              Group {g}
+            </button>
+          ))}
         </div>
+        <p className="text-[11px] mt-1.5" style={{ color: "#6e6e73" }}>
+          {GROUP_LABELS[activeGroup - 1]}
+        </p>
+      </div>
 
-        {/* Day tabs */}
-        <div className="flex gap-2 mb-6">
+      {/* Day tabs — segmented control */}
+      <div className="mb-5">
+        <div
+          className="inline-flex gap-0.5 p-1 rounded-lg"
+          style={{ background: "rgba(118,118,128,0.12)" }}
+        >
           {[1, 2].map((day) => (
             <button
               key={day}
               onClick={() => setActiveDay(day)}
-              className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 ${
-                activeDay === day
-                  ? "bg-[#1B2E4A] text-white shadow-md shadow-[#1B2E4A]/15"
-                  : "bg-white/50 text-[#4A6078] hover:bg-white/70"
-              }`}
+              style={segmentedStyle(activeDay === day)}
             >
               {day === 1 ? "Fri Jan 16" : "Sat Jan 17"}
             </button>
           ))}
         </div>
-
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={key}
-            initial={{ opacity: 0, x: 15 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -15 }}
-            transition={{ duration: 0.3 }}
-            className="flex flex-col gap-2"
-          >
-            {items.map((item, i) => {
-              const isCurrent = isCurrentSession(item, conferenceDay, activeDay);
-              const isSession = item.title.startsWith("Committee Session");
-              return (
-                <motion.div
-                  key={`${item.time}-${item.title}`}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: i * 0.03 }}
-                  className={`flex items-center gap-4 rounded-xl px-4 py-3 transition-colors duration-200 ${
-                    isCurrent
-                      ? "bg-[#1B2E4A] text-white shadow-lg shadow-[#1B2E4A]/20"
-                      : isSession
-                        ? "bg-white/60 border border-[#C4E4F7]/50"
-                        : "bg-white/40"
-                  }`}
-                >
-                  <span
-                    className={`text-sm font-mono font-medium w-14 shrink-0 ${
-                      isCurrent ? "text-white/80" : "text-[#7A8FA3]"
-                    }`}
-                  >
-                    {item.time}
-                  </span>
-                  <span
-                    className={`text-sm ${
-                      isCurrent
-                        ? "text-white font-semibold"
-                        : isSession
-                          ? "text-[#1B2E4A] font-semibold"
-                          : "text-[#4A6078] font-medium"
-                    }`}
-                  >
-                    {item.title}
-                  </span>
-                  {isCurrent && (
-                    <span className="ml-auto text-[10px] font-bold uppercase tracking-wider bg-white/20 px-2 py-1 rounded-md">
-                      Now
-                    </span>
-                  )}
-                </motion.div>
-              );
-            })}
-          </motion.div>
-        </AnimatePresence>
       </div>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={key}
+          initial={{ opacity: 0, x: 15 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -15 }}
+          transition={{ duration: 0.3 }}
+          className="rounded-xl overflow-hidden"
+          style={{
+            background: "#ffffff",
+            border: "0.5px solid rgba(0,0,0,0.06)",
+          }}
+        >
+          {items.map((item, i) => {
+            const isCurrent = isCurrentSession(item, conferenceDay, activeDay);
+            return (
+              <motion.div
+                key={`${item.time}-${item.title}`}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25, delay: i * 0.02 }}
+                className="flex items-center gap-4 px-4 py-3"
+                style={{
+                  borderBottom: i < items.length - 1 ? "0.5px solid rgba(60,60,67,0.12)" : "none",
+                  marginLeft: isCurrent ? 0 : undefined,
+                  background: isCurrent ? "rgba(0,122,255,0.08)" : "transparent",
+                }}
+              >
+                {isCurrent && (
+                  <div
+                    className="w-1 self-stretch rounded-full"
+                    style={{ background: "#007aff", minHeight: "100%" }}
+                  />
+                )}
+                <span
+                  className="text-sm font-mono font-medium w-14 shrink-0"
+                  style={{ color: isCurrent ? "#007aff" : "#6e6e73" }}
+                >
+                  {item.time}
+                </span>
+                <span
+                  className="text-sm"
+                  style={{
+                    color: isCurrent ? "#007aff" : "#1d1d1f",
+                    fontWeight: isCurrent || item.title.startsWith("Committee Session") ? 600 : 500,
+                  }}
+                >
+                  {item.title}
+                </span>
+                {isCurrent && (
+                  <span
+                    className="ml-auto text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full"
+                    style={{ background: "#007aff", color: "#fff" }}
+                  >
+                    Now
+                  </span>
+                )}
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      </AnimatePresence>
     </section>
   );
 }
