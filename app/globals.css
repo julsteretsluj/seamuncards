@@ -1,0 +1,80 @@
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&display=swap");
+
+@font-face {
+  font-family: "Clash Display";
+  src: url("https://cdn.fontshare.com/wf/FMOTBCKV5TLPCNWQFGIYHYITSH2GMIZM/BQCZSBITGYZTDBMMHXFVNL77YOSMJIAL/KCDI7Z3JFRHP3HF34GVOKL2PKQGTWHVN.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Clash Display";
+  src: url("https://cdn.fontshare.com/wf/FMOTBCKV5TLPCNWQFGIYHYITSH2GMIZM/34YWPXHRT5BKOQKVWU2DFS6N4R4VDJW4/F7ZBZXTSYRU6XLCBHXSEHMF5OA63ULVK.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Clash Display";
+  src: url("https://cdn.fontshare.com/wf/FMOTBCKV5TLPCNWQFGIYHYITSH2GMIZM/Y3QD2HSWE47CXRACM5ULDG3RSPFAUWDL/VO74UFRWA5BWVERQ67YQIDJ5YRXHIGFG.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-heading: "Clash Display", system-ui, sans-serif;
+  --font-body: "Inter Tight", system-ui, sans-serif;
+  --color-pastel-blue: #DFF2FC;
+  --color-pastel-blue-deep: #C4E4F7;
+  --color-navy: #1B2E4A;
+  --color-navy-light: #2A4470;
+  --color-accent-warm: #F7E8D0;
+  --color-accent-mint: #D4F0E7;
+  --color-accent-lavender: #E8DFF5;
+  --color-accent-rose: #F5DFE8;
+  --color-text-primary: #1B2E4A;
+  --color-text-secondary: #4A6078;
+  --color-text-muted: #7A8FA3;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+  background: var(--color-pastel-blue);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+@keyframes nfc-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(20deg); }
+  75% { transform: rotate(-10deg); }
+}
+
+.animate-nfc-pulse {
+  animation: nfc-pulse 2s ease-in-out infinite;
+}
+
+.animate-wave {
+  animation: wave 1.5s ease-in-out infinite;
+  transform-origin: 70% 70%;
+  display: inline-block;
+}
