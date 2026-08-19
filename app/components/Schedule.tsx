@@ -12,30 +12,103 @@ interface ScheduleItem {
   endMin: number;
 }
 
-const day1: ScheduleItem[] = [
-  { time: "8:00 AM", title: "Registration & Check-in", startHour: 8, startMin: 0, endHour: 9, endMin: 0 },
-  { time: "9:00 AM", title: "Opening Ceremony", startHour: 9, startMin: 0, endHour: 10, endMin: 0 },
-  { time: "10:00 AM", title: "Committee Session I", startHour: 10, startMin: 0, endHour: 12, endMin: 0 },
-  { time: "12:00 PM", title: "Lunch Break", startHour: 12, startMin: 0, endHour: 13, endMin: 30 },
-  { time: "1:30 PM", title: "Committee Session II", startHour: 13, startMin: 30, endHour: 15, endMin: 30 },
-  { time: "3:30 PM", title: "Committee Session III", startHour: 15, startMin: 30, endHour: 17, endMin: 0 },
-  { time: "5:00 PM", title: "End of Day 1", startHour: 17, startMin: 0, endHour: 17, endMin: 30 },
+const GROUP_LABELS = [
+  "Group 1 — UNHRC, DISEC, Press Corps",
+  "Group 2 — WHO, UN Women, UNSC",
+  "Group 3 — ECOSOC, UNODC, Interpol, FWC",
 ];
 
-const day2: ScheduleItem[] = [
-  { time: "8:30 AM", title: "Committee Session IV", startHour: 8, startMin: 30, endHour: 10, endMin: 30 },
-  { time: "10:30 AM", title: "Committee Session V", startHour: 10, startMin: 30, endHour: 12, endMin: 0 },
-  { time: "12:00 PM", title: "Lunch Break", startHour: 12, startMin: 0, endHour: 13, endMin: 30 },
-  { time: "1:30 PM", title: "Closing Ceremony & Awards", startHour: 13, startMin: 30, endHour: 15, endMin: 30 },
-  { time: "3:30 PM", title: "End of Conference", startHour: 15, startMin: 30, endHour: 16, endMin: 0 },
-];
+const schedules: Record<string, ScheduleItem[]> = {
+  "1-1": [
+    { time: "7:30", title: "Arrival & Registration", startHour: 7, startMin: 30, endHour: 8, endMin: 30 },
+    { time: "8:30", title: "Opening Ceremony", startHour: 8, startMin: 30, endHour: 9, endMin: 15 },
+    { time: "9:15", title: "Break & Photo Ops", startHour: 9, startMin: 15, endHour: 9, endMin: 45 },
+    { time: "9:45", title: "Icebreakers", startHour: 9, startMin: 45, endHour: 10, endMin: 0 },
+    { time: "10:00", title: "Committee Session 1 — Motions", startHour: 10, startMin: 0, endHour: 11, endMin: 0 },
+    { time: "11:00", title: "Lunch (Eat)", startHour: 11, startMin: 0, endHour: 11, endMin: 30 },
+    { time: "11:30", title: "Lunch (Socialise)", startHour: 11, startMin: 30, endHour: 12, endMin: 0 },
+    { time: "12:00", title: "Committee Session 2 — Resolutions", startHour: 12, startMin: 0, endHour: 14, endMin: 30 },
+    { time: "14:30", title: "Break — Resolutions Due", startHour: 14, startMin: 30, endHour: 15, endMin: 0 },
+    { time: "15:00", title: "Committee Session 3 — Voting", startHour: 15, startMin: 0, endHour: 16, endMin: 30 },
+    { time: "16:30", title: "Feedback & Departure", startHour: 16, startMin: 30, endHour: 17, endMin: 0 },
+  ],
+  "1-2": [
+    { time: "7:30", title: "Arrival & Registration", startHour: 7, startMin: 30, endHour: 8, endMin: 30 },
+    { time: "8:30", title: "Opening Ceremony", startHour: 8, startMin: 30, endHour: 9, endMin: 15 },
+    { time: "9:15", title: "Break & Photo Ops", startHour: 9, startMin: 15, endHour: 9, endMin: 45 },
+    { time: "9:45", title: "Icebreakers", startHour: 9, startMin: 45, endHour: 10, endMin: 0 },
+    { time: "10:00", title: "Committee Session 1 — Motions", startHour: 10, startMin: 0, endHour: 11, endMin: 0 },
+    { time: "11:00", title: "Lunch (Socialise)", startHour: 11, startMin: 0, endHour: 11, endMin: 30 },
+    { time: "11:30", title: "Lunch (Eat)", startHour: 11, startMin: 30, endHour: 12, endMin: 30 },
+    { time: "12:30", title: "Committee Session 2 — Resolutions", startHour: 12, startMin: 30, endHour: 14, endMin: 30 },
+    { time: "14:30", title: "Break — Resolutions Due", startHour: 14, startMin: 30, endHour: 15, endMin: 0 },
+    { time: "15:00", title: "Committee Session 3 — Voting", startHour: 15, startMin: 0, endHour: 16, endMin: 30 },
+    { time: "16:30", title: "Feedback & Departure", startHour: 16, startMin: 30, endHour: 17, endMin: 0 },
+  ],
+  "1-3": [
+    { time: "7:30", title: "Arrival & Registration", startHour: 7, startMin: 30, endHour: 8, endMin: 30 },
+    { time: "8:30", title: "Opening Ceremony", startHour: 8, startMin: 30, endHour: 9, endMin: 15 },
+    { time: "9:15", title: "Break & Photo Ops", startHour: 9, startMin: 15, endHour: 9, endMin: 45 },
+    { time: "9:45", title: "Icebreakers", startHour: 9, startMin: 45, endHour: 10, endMin: 0 },
+    { time: "10:00", title: "Committee Session 1 — Motions", startHour: 10, startMin: 0, endHour: 11, endMin: 30 },
+    { time: "11:30", title: "Lunch (Socialise)", startHour: 11, startMin: 30, endHour: 12, endMin: 0 },
+    { time: "12:00", title: "Lunch (Eat)", startHour: 12, startMin: 0, endHour: 13, endMin: 0 },
+    { time: "13:00", title: "Committee Session 2 — Resolutions", startHour: 13, startMin: 0, endHour: 14, endMin: 30 },
+    { time: "14:30", title: "Break — Resolutions Due", startHour: 14, startMin: 30, endHour: 15, endMin: 0 },
+    { time: "15:00", title: "Committee Session 3 — Voting", startHour: 15, startMin: 0, endHour: 16, endMin: 30 },
+    { time: "16:30", title: "Feedback & Departure", startHour: 16, startMin: 30, endHour: 17, endMin: 0 },
+  ],
+  "2-1": [
+    { time: "7:30", title: "Arrival", startHour: 7, startMin: 30, endHour: 8, endMin: 30 },
+    { time: "8:30", title: "Registration & Photo Ops", startHour: 8, startMin: 30, endHour: 9, endMin: 0 },
+    { time: "9:00", title: "Committee Session 1 — Motions", startHour: 9, startMin: 0, endHour: 10, endMin: 0 },
+    { time: "10:00", title: "Break", startHour: 10, startMin: 0, endHour: 10, endMin: 30 },
+    { time: "10:30", title: "Committee Session 2 — Motions & Resolutions", startHour: 10, startMin: 30, endHour: 12, endMin: 0 },
+    { time: "12:00", title: "Lunch (Socialise)", startHour: 12, startMin: 0, endHour: 12, endMin: 30 },
+    { time: "12:30", title: "Lunch (Eat)", startHour: 12, startMin: 30, endHour: 13, endMin: 0 },
+    { time: "13:00", title: "Committee Session 3 — Resolutions", startHour: 13, startMin: 0, endHour: 14, endMin: 30 },
+    { time: "14:30", title: "Break — Resolutions Due", startHour: 14, startMin: 30, endHour: 15, endMin: 0 },
+    { time: "15:00", title: "Committee Session 4 — Voting", startHour: 15, startMin: 0, endHour: 16, endMin: 0 },
+    { time: "16:00", title: "Feedback & Break", startHour: 16, startMin: 0, endHour: 16, endMin: 30 },
+    { time: "16:30", title: "Closing Ceremony", startHour: 16, startMin: 30, endHour: 17, endMin: 30 },
+    { time: "17:30", title: "Photo Ops & Departure", startHour: 17, startMin: 30, endHour: 18, endMin: 0 },
+  ],
+  "2-2": [
+    { time: "7:30", title: "Arrival", startHour: 7, startMin: 30, endHour: 8, endMin: 30 },
+    { time: "8:30", title: "Registration & Photo Ops", startHour: 8, startMin: 30, endHour: 9, endMin: 0 },
+    { time: "9:00", title: "Committee Session 1 — Motions", startHour: 9, startMin: 0, endHour: 10, endMin: 0 },
+    { time: "10:00", title: "Break", startHour: 10, startMin: 0, endHour: 10, endMin: 30 },
+    { time: "10:30", title: "Committee Session 2 — Motions & Resolutions", startHour: 10, startMin: 30, endHour: 11, endMin: 30 },
+    { time: "11:30", title: "Lunch (Eat)", startHour: 11, startMin: 30, endHour: 12, endMin: 0 },
+    { time: "12:00", title: "Lunch (Socialise)", startHour: 12, startMin: 0, endHour: 12, endMin: 30 },
+    { time: "12:30", title: "Committee Session 3 — Resolutions", startHour: 12, startMin: 30, endHour: 14, endMin: 30 },
+    { time: "14:30", title: "Break — Resolutions Due", startHour: 14, startMin: 30, endHour: 15, endMin: 0 },
+    { time: "15:00", title: "Committee Session 4 — Voting", startHour: 15, startMin: 0, endHour: 16, endMin: 0 },
+    { time: "16:00", title: "Feedback & Break", startHour: 16, startMin: 0, endHour: 16, endMin: 30 },
+    { time: "16:30", title: "Closing Ceremony", startHour: 16, startMin: 30, endHour: 17, endMin: 30 },
+    { time: "17:30", title: "Photo Ops & Departure", startHour: 17, startMin: 30, endHour: 18, endMin: 0 },
+  ],
+  "2-3": [
+    { time: "7:30", title: "Arrival", startHour: 7, startMin: 30, endHour: 8, endMin: 30 },
+    { time: "8:30", title: "Registration & Photo Ops", startHour: 8, startMin: 30, endHour: 9, endMin: 0 },
+    { time: "9:00", title: "Committee Session 1 — Motions", startHour: 9, startMin: 0, endHour: 10, endMin: 0 },
+    { time: "10:00", title: "Break", startHour: 10, startMin: 0, endHour: 10, endMin: 30 },
+    { time: "10:30", title: "Committee Session 2 — Motions & Resolutions", startHour: 10, startMin: 30, endHour: 11, endMin: 30 },
+    { time: "11:30", title: "Lunch (Socialise)", startHour: 11, startMin: 30, endHour: 12, endMin: 0 },
+    { time: "12:00", title: "Lunch (Eat)", startHour: 12, startMin: 0, endHour: 12, endMin: 30 },
+    { time: "12:30", title: "Committee Session 3 — Resolutions", startHour: 12, startMin: 30, endHour: 14, endMin: 30 },
+    { time: "14:30", title: "Break — Resolutions Due", startHour: 14, startMin: 30, endHour: 15, endMin: 0 },
+    { time: "15:00", title: "Committee Session 4 — Voting", startHour: 15, startMin: 0, endHour: 16, endMin: 0 },
+    { time: "16:00", title: "Feedback & Break", startHour: 16, startMin: 0, endHour: 16, endMin: 30 },
+    { time: "16:30", title: "Closing Ceremony", startHour: 16, startMin: 30, endHour: 17, endMin: 30 },
+    { time: "17:30", title: "Photo Ops & Departure", startHour: 17, startMin: 30, endHour: 18, endMin: 0 },
+  ],
+};
 
 function isCurrentSession(item: ScheduleItem, conferenceDay: number, activeDay: number): boolean {
   if (conferenceDay !== activeDay) return false;
   const now = new Date();
-  const h = now.getHours();
-  const m = now.getMinutes();
-  const nowMins = h * 60 + m;
+  const nowMins = now.getHours() * 60 + now.getMinutes();
   const startMins = item.startHour * 60 + item.startMin;
   const endMins = item.endHour * 60 + item.endMin;
   return nowMins >= startMins && nowMins < endMins;
@@ -50,14 +123,26 @@ function getConferenceDay(): number {
   return 0;
 }
 
+const GROUP_KEY = "seamun-schedule-group";
+
 export default function Schedule() {
   const [activeDay, setActiveDay] = useState(1);
+  const [activeGroup, setActiveGroup] = useState(1);
   const [conferenceDay, setConferenceDay] = useState(0);
-  const items = activeDay === 1 ? day1 : day2;
 
   useEffect(() => {
     setConferenceDay(getConferenceDay());
+    const saved = localStorage.getItem(GROUP_KEY);
+    if (saved) setActiveGroup(Number(saved));
   }, []);
+
+  const handleGroupChange = (g: number) => {
+    setActiveGroup(g);
+    localStorage.setItem(GROUP_KEY, String(g));
+  };
+
+  const key = `${activeDay}-${activeGroup}`;
+  const items = schedules[key] || [];
 
   return (
     <section id="schedule" className="px-5 pb-20">
@@ -76,11 +161,37 @@ export default function Schedule() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-sm text-[#7A8FA3] mb-6"
+          className="text-sm text-[#7A8FA3] mb-5"
         >
-          January 16–17, 2027
+          January 16–17, 2027 · D-PREP International School
         </motion.p>
 
+        {/* Group selector */}
+        <div className="mb-4">
+          <p className="text-xs font-medium text-[#7A8FA3] uppercase tracking-wider mb-2">
+            Your committee group
+          </p>
+          <div className="flex gap-2">
+            {[1, 2, 3].map((g) => (
+              <button
+                key={g}
+                onClick={() => handleGroupChange(g)}
+                className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-300 ${
+                  activeGroup === g
+                    ? "bg-[#1B2E4A] text-white shadow-md shadow-[#1B2E4A]/15"
+                    : "bg-white/50 text-[#4A6078] hover:bg-white/70"
+                }`}
+              >
+                Group {g}
+              </button>
+            ))}
+          </div>
+          <p className="text-[11px] text-[#7A8FA3]/80 mt-1.5">
+            {GROUP_LABELS[activeGroup - 1]}
+          </p>
+        </div>
+
+        {/* Day tabs */}
         <div className="flex gap-2 mb-6">
           {[1, 2].map((day) => (
             <button
@@ -92,44 +203,51 @@ export default function Schedule() {
                   : "bg-white/50 text-[#4A6078] hover:bg-white/70"
               }`}
             >
-              Day {day} — Jan {day === 1 ? 16 : 17}
+              {day === 1 ? "Fri Jan 16" : "Sat Jan 17"}
             </button>
           ))}
         </div>
 
         <AnimatePresence mode="wait">
           <motion.div
-            key={activeDay}
-            initial={{ opacity: 0, x: activeDay === 1 ? -15 : 15 }}
+            key={key}
+            initial={{ opacity: 0, x: 15 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: activeDay === 1 ? 15 : -15 }}
+            exit={{ opacity: 0, x: -15 }}
             transition={{ duration: 0.3 }}
-            className="flex flex-col gap-2.5"
+            className="flex flex-col gap-2"
           >
             {items.map((item, i) => {
               const isCurrent = isCurrentSession(item, conferenceDay, activeDay);
+              const isSession = item.title.startsWith("Committee Session");
               return (
                 <motion.div
-                  key={item.title}
+                  key={`${item.time}-${item.title}`}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.35, delay: i * 0.05 }}
-                  className={`flex items-center gap-4 rounded-xl px-4 py-3.5 transition-colors duration-200 ${
+                  transition={{ duration: 0.3, delay: i * 0.03 }}
+                  className={`flex items-center gap-4 rounded-xl px-4 py-3 transition-colors duration-200 ${
                     isCurrent
                       ? "bg-[#1B2E4A] text-white shadow-lg shadow-[#1B2E4A]/20"
-                      : "bg-white/50 hover:bg-white/70"
+                      : isSession
+                        ? "bg-white/60 border border-[#C4E4F7]/50"
+                        : "bg-white/40"
                   }`}
                 >
                   <span
-                    className={`text-sm font-mono font-medium w-20 shrink-0 ${
+                    className={`text-sm font-mono font-medium w-14 shrink-0 ${
                       isCurrent ? "text-white/80" : "text-[#7A8FA3]"
                     }`}
                   >
                     {item.time}
                   </span>
                   <span
-                    className={`text-sm font-semibold ${
-                      isCurrent ? "text-white" : "text-[#1B2E4A]"
+                    className={`text-sm ${
+                      isCurrent
+                        ? "text-white font-semibold"
+                        : isSession
+                          ? "text-[#1B2E4A] font-semibold"
+                          : "text-[#4A6078] font-medium"
                     }`}
                   >
                     {item.title}
