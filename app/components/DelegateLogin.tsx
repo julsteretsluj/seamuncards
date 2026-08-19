@@ -26,9 +26,11 @@ export default function DelegateLogin() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [signingIn, setSigningIn] = useState(false);
+  const [available, setAvailable] = useState(false);
 
   const fetchProfile = useCallback(async (userId: string) => {
     const supabase = getSupabase();
+    if (!supabase) return;
     const { data: prof } = await supabase
       .from("profiles")
       .select("name, role, allocation, profile_picture_url")
@@ -54,6 +56,12 @@ export default function DelegateLogin() {
 
   useEffect(() => {
     const supabase = getSupabase();
+    if (!supabase) {
+      setLoading(false);
+      return;
+    }
+    setAvailable(true);
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
         setUser(session.user);
@@ -77,9 +85,11 @@ export default function DelegateLogin() {
   }, [fetchProfile]);
 
   const handleLogin = async () => {
+    const supabase = getSupabase();
+    if (!supabase) return;
     setError("");
     setSigningIn(true);
-    const { error: authError } = await getSupabase().auth.signInWithPassword({
+    const { error: authError } = await supabase.auth.signInWithPassword({
       email: email.trim(),
       password,
     });
@@ -94,7 +104,8 @@ export default function DelegateLogin() {
   };
 
   const handleLogout = async () => {
-    await getSupabase().auth.signOut();
+    const supabase = getSupabase();
+    if (supabase) await supabase.auth.signOut();
     setProfile(null);
     setAllocations([]);
     setEmail("");
@@ -138,7 +149,27 @@ export default function DelegateLogin() {
         </motion.p>
 
         <AnimatePresence mode="wait">
-          {user && profile ? (
+          {!available ? (
+            <motion.div
+              key="unavailable"
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4 }}
+              className="bg-white/50 rounded-2xl p-6 text-center"
+            >
+              <p className="text-sm text-[#7A8FA3]">
+                Delegate login will be available closer to the conference.
+              </p>
+              <a
+                href="https://intermun.site"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block mt-3 text-sm font-semibold text-[#1B2E4A] underline hover:text-[#2A4470] transition-colors"
+              >
+                Visit InterMUN to create your account
+              </a>
+            </motion.div>
+          ) : user && profile ? (
             <motion.div
               key="profile"
               initial={{ opacity: 0, scale: 0.97 }}

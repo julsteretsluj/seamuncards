@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "SEAMUN I 2027 — Conference Card",
   description:
     "Your digital conference companion for SEAMUN I 2027 at D-PREP International School",
+  icons: { icon: "/favicon.svg" },
 };
 
 export const dynamic = "force-dynamic";
